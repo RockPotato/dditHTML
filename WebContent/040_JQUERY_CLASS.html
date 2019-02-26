@@ -1,0 +1,27 @@
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Document</title>
+		<script src="jquery-1.12.4.js">
+		</script>	
+		<script type="text/javascript">
+			function myclick(){
+				//var txt=$(".my_txt").val();
+				//alert(txt);
+				//$(".my_txt").val("fdf");
+				$(".my_div:lt(1)").html("ȫ�浿");
+			}
+		</script>
+		
+	</head>
+	
+	<body id="my_body">
+		<input class= "my_txt" type = "text">
+		<input type = "button" onclick="myclick()">
+		
+		<div class="my_div">6</div>
+		<div class="my_div">6</div>
+		<div class="my_div">6</div>
+	</body>
+</html>

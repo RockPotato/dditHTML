@@ -1,0 +1,57 @@
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Document</title>
+		<style type="text/css">
+			#num{
+				width :30px
+			}
+			#num1{
+				width :30px
+			}
+			#res{
+				width :60px
+			}		
+		</style>
+		<script type="text/javascript">
+		function myclick(){
+			var obj=document.getElementById("num");
+			var num=parseInt(obj.options[obj.selectedIndex].value);
+			var obj1=document.getElementById("num1");
+			 var num1=parseInt(obj1.options[obj1.selectedIndex].value);  
+			document.getElementById("res").value=(num*num1);
+		}
+		</script>
+		
+	</head>
+	
+	<body>
+		<select id="num">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+		</select> *
+		<select id="num1">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+		</select>
+		= <input type="text" id="res"><br>
+		<input type="button" style="width: 165px" height="60px" value="계산하기" onclick="myclick()">
+	</body>
+</html>

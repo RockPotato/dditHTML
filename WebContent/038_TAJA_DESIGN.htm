@@ -1,0 +1,113 @@
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Document</title>
+		<style type="text/css">
+			body {
+			    background: black;
+			}
+			
+			.div_word {
+			    position: absolute;
+			    top: -5px;
+				left: -100px;
+			    transform: translateX(-50%) translateY(-50%);
+			    color: #17D4FE;
+			    font-family: 휴먼편지체;
+			    letter-spacing: 4px;
+			}
+		</style>
+		<script type="text/javascript">
+			var score=0;
+			function makeWord(){
+				objBody=document.getElementById("my_body");
+				var arr_word = new Array();
+				arr_word.push("백제");
+				arr_word.push("고구려");
+				arr_word.push("신라");
+				arr_word.push("발해");
+				arr_word.push("조선");
+				alert(arr_word[0]);
+				for(var i=0;i<arr_word.length;i++){
+					var horizon = (Math.random()*500+1);
+					objBody.innerHTML +="<div class='div_word'>"+arr_word[i]+"</div>";
+				}
+				
+			}
+			function onstep_down(){
+				makeWord();
+				first();
+				document.getElementById("div_score").innerHTML =0;
+				timer=setInterval(function(){
+					for(var i=0;i<document.getElementsByClassName("div_word").length;i++){
+						var temp=document.getElementsByClassName("div_word")[i].style.top;
+						var temp1=parseInt(temp.replace("px",""));
+						var num=Math.floor((Math.random()*20)+1);
+						
+						if(temp1>=150){
+							alert("You lose");
+							clearInterval(timer);
+						}
+						if(isNaN(temp1)){
+							document.getElementsByClassName("div_word")[i].style.top=(num)+"px";	
+						}else{
+							document.getElementsByClassName("div_word")[i].style.top=(num+temp1)+"px";	
+						}
+					}
+				}, 1500); 
+			}
+			function first(){
+				var cnt=100;
+				for(var i=0;i<document.getElementsByClassName("div_word").length;i++){
+					var temp=document.getElementsByClassName("div_word")[i].style.left;
+					var temp1=parseInt(temp.replace("px",""));
+					document.getElementsByClassName("div_word")[i].style.left=(cnt)+"px";
+					cnt+=60;
+				} 	
+			}
+			function fn_press(e){
+				if(e.keyCode==13){
+					fn_compare();
+				}
+			}
+			function fn_compare(){
+				var word=document.getElementById("my_text").value;
+				var div_words=document.getElementsByClassName("div_word");
+				for(var i=div_words.length-1;i>=0;i--){
+					if(word==div_words[i].innerHTML){
+						div_words[i].remove();
+						document.getElementById("my_text").value="";
+						score++;
+						document.getElementById("div_score").innerHTML=score;
+						if(score==5){
+							alert("you win!");
+							clearInterval(timer);
+						}
+						break;
+					}
+				}
+			}
+			function end(){
+				clearInterval(timer);
+			}
+		</script>
+	</head>
+	
+	<body id="my_body">
+		<input type="text" id="my_text" style="position: absolute;top: 400px; left: 200px;" onkeypress="fn_press(event)">
+		<div style ="color : white; position:relative">현재 스코어 : </div>
+		<div id = "div_score" style ="color : white; position:relative;"></div>
+		<a href="javascript:onstep_down()" style="position: absolute;top: 400px; left: 400px;" >시작</a><br/>
+		<a href="javascript:end()" style="position: absolute;top: 400px; left: 450px;">종료</a>
+		<div class='div_word'>우리나라</div>
+		<div class='div_word'>우리나라</div>
+		<div class='div_word'>우리나라</div>
+		<div class='div_word'>우리나라</div>
+		<div class='div_word'>캐나다</div>
+		<div class='div_word'>영국</div>
+		<div class='div_word'>그리스</div>
+		<div class='div_word'>이탈리아</div>
+		<div class='div_word'>독일</div>
+	</body>
+</html>

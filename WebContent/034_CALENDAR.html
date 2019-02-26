@@ -1,0 +1,123 @@
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<style type="text/css">
+			 body {
+				background-color: beige;
+			} 
+			.td_sun{
+				color : red;
+			}
+			.td_sat{
+				color: blue;
+			}
+			
+		</style>
+		<title>Lee's calender</title>
+		<script type="text/javascript">
+			function myclick() {
+				var now = new Date();
+				var year = document.getElementById("my_year").options[document.getElementById("my_year").selectedIndex].value;
+				var month = document.getElementById("my_mon").options[document.getElementById("my_mon").selectedIndex].value;
+				
+				var firstDay = new Date(year,month-1,1,0,0,0);
+				
+				if(month==12){
+					year++;
+					month=1;
+				}else{
+					month++;
+				}
+				
+				var lastDay = new Date(year,month-1,1,0,0,0);
+				var startMilli=firstDay.getTime();
+				var lastMilli=lastDay.getTime();
+				var between=(lastMilli-startMilli)/1000/60/60/24;//밀리,초,분,시간 순서로 나눔
+				var first_week=firstDay.getDay();
+				
+				var arr_disp=new Array();
+				for(var i=0; i<first_week;i++){
+					arr_disp.push("&nbsp;");
+				}
+				for(var i=1;i<=between;i++){
+					arr_disp.push(i);
+				}
+				var mod_len=(7-(arr_disp.length%7))%7;
+				
+				for(var i=0;i<mod_len;i++){
+					arr_disp.push("&nbsp;");
+				}
+				
+				var text="";
+				for(var i=0;i<arr_disp.length;i=i+7){
+					text+="<tr>";
+					text+="<td class='td_sun'>"+arr_disp[i+0]+"</td>";
+					text+="<td class='td_day'>"+arr_disp[i+1]+"</td>";
+					text+="<td class='td_day'>"+arr_disp[i+2]+"</td>";
+					text+="<td class='td_day'>"+arr_disp[i+3]+"</td>";
+					text+="<td class='td_day'>"+arr_disp[i+4]+"</td>";
+					
+					text+="<td class='td_day'>"+arr_disp[i+5]+"</td>";
+					text+="<td class='td_sat'>"+arr_disp[i+6]+"</td>";
+					text+="</tr>";
+				}
+				
+				var obj_tbody=document.getElementById("my_tbody");
+				obj_tbody.innerHTML=text;
+					
+			}
+			function clear(){
+				var obj_tbody=document.getElementById("my_tbody");
+				obj_tbody.innerHTML="";
+			}
+		</script>
+		
+	</head>
+	
+	<body>
+		<table border="1">
+			<thead>
+				<tr>
+					<td colspan="7">
+						<select id="my_year">
+							<option value="2019">2019년</option>
+							<option value="2018">2018년</option>
+							<option value="2017">2017년</option>
+						</select>
+						<select id="my_mon">
+							<option value="1">1월</option>
+							<option value="2">2월</option>
+							<option value="3">3월</option>
+							<option value="4">4월</option>
+							
+							<option value="5">5월</option>
+							<option value="6">6월</option>
+							<option value="7">7월</option>
+							<option value="8">8월</option>
+						
+							<option value="9">9월</option>
+							<option value="10">10월</option>
+							<option value="11">11월</option>
+							<option value="12">12월</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class='td_sun'>sun</td>
+					<td class='td_day'>mon</td>
+					<td class='td_day'>tue</td>
+					<td class='td_day'>wed</td>
+					<td class='td_day'>thr</td>
+					
+					<td class='td_day'>fri</td>
+					<td class='td_sat'>sat</td>
+				</tr>
+			</thead>
+			<tbody id="my_tbody">
+			</tbody>
+		</table>
+		<a href="javascript:myclick()">날짜 입력</a>
+		<input type="button" onclick="myclick()" value="CLEAR">
+	</body>
+</html>

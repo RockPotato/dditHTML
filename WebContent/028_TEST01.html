@@ -1,0 +1,30 @@
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Document</title>
+		<style type="text/css">
+		#num{
+			width :30px
+		}
+		#num1{
+			width :30px
+		}
+		#res{
+			width :60px
+		}
+		</style>
+		<script type="text/javascript">
+		function myclick(){
+			var num=parseInt(document.getElementById("num").value);
+			 var num1=parseInt(document.getElementById("num1").value);  
+			document.getElementById("res").value=(num+num1);
+		}
+		</script>
+	</head>
+	
+	<body>
+		<input type="text" id="num"> + <input type="text" id="num1"> =&nbsp;<input type="text" id="res"><br>
+		<input type="button" style="width: 180px" value="계산하기" onclick="myclick()">
+	</body>
+</html>

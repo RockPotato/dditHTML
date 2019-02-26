@@ -1,0 +1,88 @@
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Document</title>
+		<style type="text/css">
+		div
+		{
+ 			background: none;
+			border: none;
+			position: absolute;
+			top: -5px;
+			left: -100px;
+		}		
+		</style>
+		<script type="text/javascript">
+			var score=0;
+			function onstep_down(){
+				first();
+				timer=setInterval(function(){
+					for(var i=0;i<document.getElementsByClassName("div_word").length;i++){
+						var temp=document.getElementsByClassName("div_word")[i].style.top;
+						var temp1=parseInt(temp.replace("px",""));
+						var num=Math.floor((Math.random()*20)+1);
+						
+						if(temp1>=100){
+							alert("You lose");
+							clearInterval(timer);
+						}
+						if(isNaN(temp1)){
+							document.getElementsByClassName("div_word")[i].style.top=(num)+"px";	
+						}else{
+							document.getElementsByClassName("div_word")[i].style.top=(num+temp1)+"px";	
+						}
+					}
+				}, 1500); 
+			}
+			function first(){
+				var cnt=100;
+				for(var i=0;i<document.getElementsByClassName("div_word").length;i++){
+					var temp=document.getElementsByClassName("div_word")[i].style.left;
+					var temp1=parseInt(temp.replace("px",""));
+					document.getElementsByClassName("div_word")[i].style.left=(cnt)+"px";
+					cnt+=60;
+				} 	
+			}
+			function fn_press(e){
+				if(e.keyCode==13){
+					fn_compare();
+				}
+			}
+			function fn_compare(){
+				var word=document.getElementById("my_text").value;
+				var div_words=document.getElementsByClassName("div_word");
+				for(var i=div_words.length-1;i>=0;i--){
+					if(word==div_words[i].innerHTML){
+						div_words[i].remove();
+						document.getElementById("my_text").value="";
+						score++;
+						if(score==2){
+							alert("you win!");
+							clearInterval(timer);
+						}
+						break;
+					}
+				}
+			}
+			function end(){
+				clearInterval(timer);
+			}
+		</script>
+	</head>
+	
+	<body>
+		<input type="text" id="my_text" style="position: absolute;top: 400px; left: 200px;" onkeypress="fn_press(event)">
+		<a href="javascript:onstep_down()" style="position: absolute;top: 400px; left: 400px;" >시작</a><br/>
+		<a href="javascript:end()" style="position: absolute;top: 400px; left: 450px;">종료</a>
+		<div class='div_word'>우리나라</div>
+		<div class='div_word'>우리나라</div>
+		<div class='div_word'>우리나라</div>
+		<div class='div_word'>우리나라</div>
+		<div class='div_word'>캐나다</div>
+		<div class='div_word'>영국</div>
+		<div class='div_word'>그리스</div>
+		<div class='div_word'>이탈리아</div>
+		<div class='div_word'>독일</div>
+	</body>
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<script type="text/javascript" src="../jquery.js">
+ 
+</script>
+<script>
+ var arrDiv2D = new Array();
+    var websocket;
+ var flagStart = false;
+ var flagPriority = false;
+ var flagTurn = false;
+    
+    $(document).ready(function(){
+        
+        if ("WebSocket" in window) {
+            alert("Connecting...");
+            websocket = new WebSocket("ws://12.92.96.195:9999/echo");
+            
+            websocket.onopen = function(){
+                onStart();
+            };
+            websocket.onmessage = function(e){
+                onReceive(e);
+            };
+            websocket.onclose = function(){
+                onClose();
+            }
+        }else {
+            printOut("Your browser doesn't support WebSocket.");
+        }
+        settingPan();
+  attachEvent();
+        
+    });
+
+    function onStart(){
+        alert("onStart");
+    }
+    
+    function onReceive(e){
+        var message = e.data;
+        var messages = message.split(";");
+  alert("onReceive[message] : " + messages);
+        var command = messages[0];
+        var data = messages[1];
+        if (command == "start") {
+            if (data == 0) {
+    flagTurn = true;
+    flagPriority = true;
+            }
+            if (data == 1) {
+    flagTurn = false;
+    flagPriority = false;
+            }
+   flagStart = true;
+        }
+        
+        if (command == "done") {
+            for (var i = 0; i < arrDiv2D.length; i++) {
+                for (var j = 0; j < arrDiv2D[i].length; j++) {
+                    
+                    if (data == arrDiv2D[i][j].innerHTML) {
+                        $(arrDiv2D[i][j]).unbind("click");
+                        if (flagPriority) {
+                            arrDiv2D[i][j].style.background = "red";
+                        }
+                        else {
+                            arrDiv2D[i][j].style.background = "blue";
+                        }
+                        flagTurn = true;
+                        return;
+                    }
+                    
+                }
+            }
+            
+        }
+        
+    }
+    
+    function onSend(message){
+        websocket.send(message);
+    }
+    
+    function onClose(){
+        alert("onClose");
+    }
+ 
+ 
+ function attachEvent(){
+  $("div div").bind("click", clickDiv);
+ } 
+    function clickDiv(e){
+  if(!flagStart)return;
+  if(!flagTurn)return;
+  
+  onSend("done;"+e.target.innerHTML);
+  $(e.target).unbind("click");
+  if(flagPriority){
+   e.target.style.background = "red";
+  }else{
+   e.target.style.background = "blue";
+  }
+  flagTurn = !flagTurn;
+
+ }
+ 
+    function settingPan(){
+  
+        
+        arrDiv2D.push($("div div:gt(-1):lt(5)"));
+        arrDiv2D.push($("div div:gt(4):lt(5)"));
+        arrDiv2D.push($("div div:gt(9):lt(5)"));
+        arrDiv2D.push($("div div:gt(14):lt(5)"));
+        arrDiv2D.push($("div div:gt(19):lt(5)"));
+  
+  var arrRnd = new Array();
+  var count = 1;
+        for (var i = 0; i < arrDiv2D.length; i++) {
+            for (var j = 0; j < arrDiv2D[i].length; j++) {
+    arrRnd.push(count);
+    count++;
+   }
+  }
+  for (var i = 0; i < arrRnd.length*3; i++) {
+   var rnd = parseInt(Math.random()*arrRnd.length);
+   var buff = arrRnd[0];
+   arrRnd[0]=arrRnd[rnd];
+   arrRnd[rnd]=buff;
+   
+  }
+        
+        for (var i = 0; i < arrDiv2D.length; i++) {
+            for (var j = 0; j < arrDiv2D[i].length; j++) {
+                arrDiv2D[i][j].style.position = "absolute";
+                arrDiv2D[i][j].style.textAlign = "center";
+    arrDiv2D[i][j].style.verticalAlign = "bottom";
+    
+    arrDiv2D[i][j].style.fontSize = "30px";
+
+    arrDiv2D[i][j].style.width = "80px";
+                arrDiv2D[i][j].style.height = "80px";
+                //arrDiv2D[i][j].style.background = "url(0.gif)";
+    arrDiv2D[i][j].style.background = "white";
+                arrDiv2D[i][j].style.left = (80 * j) + "px";
+                arrDiv2D[i][j].style.top = (80 * i) + "px";
+                arrDiv2D[i][j].innerHTML = arrRnd[i * 5 + j ];
+    arrDiv2D[i][j].style.border = "solid 1px";
+            }
+        }
+    }
+</script>
+</head>
+
+<body>
+ <div>
+  <div></div><div></div><div></div><div></div><div></div>
+  <div></div><div></div><div></div><div></div><div></div>
+  <div></div><div></div><div></div><div></div><div></div>
+  <div></div><div></div><div></div><div></div><div></div>
+  <div></div><div></div><div></div><div></div><div></div>
+ </div>
+</body>
